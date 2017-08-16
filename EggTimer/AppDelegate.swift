@@ -11,6 +11,9 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    @IBOutlet weak var startTimerMenuButton: NSMenuItem!
+    @IBOutlet weak var stopTimerMenuButton: NSMenuItem!
+    @IBOutlet weak var resetTimerMenuButton: NSMenuItem!
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
