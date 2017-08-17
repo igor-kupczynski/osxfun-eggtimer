@@ -277,7 +277,6 @@ DQ
                     <connections>
                         <outlet property="customSlider" destination="Uby-BE-xCv" id="drm-ap-RES"/>
                         <outlet property="customTextField" destination="UYK-81-wUE" id="fBk-OP-ao2"/>
-                        <outlet property="presetPopup" destination="g6c-g1-PQ2" id="5aD-VX-fuv"/>
                         <outlet property="presetsPopup" destination="pyq-tl-fZ4" id="5eg-YW-G8o"/>
                     </connections>
                 </viewController>

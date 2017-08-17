@@ -17,13 +17,14 @@ class ViewController: NSViewController {
     @IBOutlet weak var resetButton: NSButton!
     
     var eggTimer = EggTimer()
-    
+    var prefs = Preferences()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         eggTimer.delegate = self
+        setupPrefs()
     }
 
     override var representedObject: Any? {
@@ -37,7 +38,7 @@ class ViewController: NSViewController {
         if eggTimer.isPaused {
             eggTimer.resumeTimer()
         } else {
-            eggTimer.duration = 480
+            eggTimer.duration = prefs.selectedTime
             eggTimer.startTimer()
         }
         configureButtonsAndMenus()
@@ -52,7 +53,7 @@ class ViewController: NSViewController {
     
     @IBAction func resetButtonClicked(_ sender: Any) {
         eggTimer.resetTimer()
-        updateDisplay(for: 480)
+        updateDisplay(for: prefs.selectedTime)
         configureButtonsAndMenus()
     }
     
@@ -101,7 +102,7 @@ extension ViewController {
     }
     
     private func imageToDisplay(for timeRemaining: TimeInterval) -> NSImage? {
-        let percentageComplete = 100 - (timeRemaining / 360 * 100)
+        let percentageComplete = 100 - (timeRemaining / prefs.selectedTime * 100)
         
         if eggTimer.isStopped {
             let stoppedImageName = (timeRemaining == 0) ? "100" : "stopped"
@@ -152,4 +153,25 @@ extension ViewController {
             appDel.enableMenus(start: enableStart, stop: enableStop, reset: enableReset)
         }
     }
+}
+
+
+extension ViewController {
+    
+    func setupPrefs() {
+        updateDisplay(for: prefs.selectedTime)
+        
+        let notificationName = Notification.Name(rawValue: "PrefsChanged")
+        NotificationCenter.default.addObserver(forName: notificationName,
+                                               object: nil, queue: nil) {
+                                                (notification) in
+                                                self.updateFromPrefs()
+        }
+    }
+    
+    func updateFromPrefs() {
+        self.eggTimer.duration = self.prefs.selectedTime
+        self.resetButtonClicked(self)
+    }
+    
 }
